@@ -1,0 +1,31 @@
+syntax = "proto3";
+package todo_service;
+option go_package = "github.com/liampulles/dump-and-dive/cmd/todo-service/internal/driver/grpc/gen";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+// --- Services ---
+
+service TODOService {
+    rpc Create(CreateRequest) returns (EntityID) {
+        option (google.api.http) = {
+            post: "/v1/todos"
+            body: "*"
+        };
+    }
+}
+
+// --- Requests ---
+
+message CreateRequest {
+    string name = 1;
+    string details = 2;
+    google.protobuf.Timestamp due = 3;
+}
+
+// --- Responses ---
+
+message EntityID {
+    uint32 id = 1;
+}

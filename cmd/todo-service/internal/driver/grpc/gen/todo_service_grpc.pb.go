@@ -13,83 +13,83 @@ import (
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion7
 
-// TODOServiceClient is the client API for TODOService service.
+// CommandServiceClient is the client API for CommandService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type TODOServiceClient interface {
+type CommandServiceClient interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*EntityID, error)
 }
 
-type tODOServiceClient struct {
+type commandServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTODOServiceClient(cc grpc.ClientConnInterface) TODOServiceClient {
-	return &tODOServiceClient{cc}
+func NewCommandServiceClient(cc grpc.ClientConnInterface) CommandServiceClient {
+	return &commandServiceClient{cc}
 }
 
-func (c *tODOServiceClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*EntityID, error) {
+func (c *commandServiceClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*EntityID, error) {
 	out := new(EntityID)
-	err := c.cc.Invoke(ctx, "/todo_service.TODOService/Create", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/todo_service.CommandService/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// TODOServiceServer is the server API for TODOService service.
-// All implementations must embed UnimplementedTODOServiceServer
+// CommandServiceServer is the server API for CommandService service.
+// All implementations must embed UnimplementedCommandServiceServer
 // for forward compatibility
-type TODOServiceServer interface {
+type CommandServiceServer interface {
 	Create(context.Context, *CreateRequest) (*EntityID, error)
-	mustEmbedUnimplementedTODOServiceServer()
+	mustEmbedUnimplementedCommandServiceServer()
 }
 
-// UnimplementedTODOServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedTODOServiceServer struct {
+// UnimplementedCommandServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedCommandServiceServer struct {
 }
 
-func (UnimplementedTODOServiceServer) Create(context.Context, *CreateRequest) (*EntityID, error) {
+func (UnimplementedCommandServiceServer) Create(context.Context, *CreateRequest) (*EntityID, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedTODOServiceServer) mustEmbedUnimplementedTODOServiceServer() {}
+func (UnimplementedCommandServiceServer) mustEmbedUnimplementedCommandServiceServer() {}
 
-// UnsafeTODOServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TODOServiceServer will
+// UnsafeCommandServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CommandServiceServer will
 // result in compilation errors.
-type UnsafeTODOServiceServer interface {
-	mustEmbedUnimplementedTODOServiceServer()
+type UnsafeCommandServiceServer interface {
+	mustEmbedUnimplementedCommandServiceServer()
 }
 
-func RegisterTODOServiceServer(s *grpc.Server, srv TODOServiceServer) {
-	s.RegisterService(&_TODOService_serviceDesc, srv)
+func RegisterCommandServiceServer(s *grpc.Server, srv CommandServiceServer) {
+	s.RegisterService(&_CommandService_serviceDesc, srv)
 }
 
-func _TODOService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CommandService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TODOServiceServer).Create(ctx, in)
+		return srv.(CommandServiceServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/todo_service.TODOService/Create",
+		FullMethod: "/todo_service.CommandService/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TODOServiceServer).Create(ctx, req.(*CreateRequest))
+		return srv.(CommandServiceServer).Create(ctx, req.(*CreateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _TODOService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "todo_service.TODOService",
-	HandlerType: (*TODOServiceServer)(nil),
+var _CommandService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "todo_service.CommandService",
+	HandlerType: (*CommandServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Create",
-			Handler:    _TODOService_Create_Handler,
+			Handler:    _CommandService_Create_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

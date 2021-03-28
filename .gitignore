@@ -1,6 +1,9 @@
 # Miscallaneous
 tmp/
 
+# IDE
+.vscode/
+
 # UI related
 ui/elm-stuff
 

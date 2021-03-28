@@ -6,7 +6,7 @@
   },
   "tags": [
     {
-      "name": "TODOService"
+      "name": "CommandService"
     }
   ],
   "consumes": [
@@ -18,7 +18,7 @@
   "paths": {
     "/v1/todos": {
       "post": {
-        "operationId": "TODOService_Create",
+        "operationId": "CommandService_Create",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -44,7 +44,7 @@
           }
         ],
         "tags": [
-          "TODOService"
+          "CommandService"
         ]
       }
     }

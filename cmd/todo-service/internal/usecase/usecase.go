@@ -13,27 +13,27 @@ type EntityID int32
 // InvalidEntityID represents an entity that does not exist.
 const InvalidEntityID = EntityID(-1)
 
-// CreateTODORequest contains data necessary to create a TODO.
-type CreateTODORequest struct {
+// CreateRequest contains data necessary to create a TODO.
+type CreateRequest struct {
 	Name    string
 	Details string
 	Due     time.Time
 }
 
-// TODOStateModifier modifies the state (persistence) of TODOs.
-type TODOStateModifier interface {
+// StateModifier modifies the state (persistence) of TODOs.
+type StateModifier interface {
 	Create(*domain.TODO) (EntityID, error)
 }
 
 // CommandService coordinates usecases which may change something in the system.
 type CommandService interface {
-	Create(*CreateTODORequest) (EntityID, error)
+	Create(*CreateRequest) (EntityID, error)
 }
 
 // CommandServiceImpl implements CommandService
 type CommandServiceImpl struct {
 	factory       domain.TODOFactory
-	stateModifier TODOStateModifier
+	stateModifier StateModifier
 }
 
 var _ CommandService = &CommandServiceImpl{}
@@ -41,7 +41,7 @@ var _ CommandService = &CommandServiceImpl{}
 // NewCommandServiceImpl is a constructor
 func NewCommandServiceImpl(
 	factory domain.TODOFactory,
-	stateModifier TODOStateModifier,
+	stateModifier StateModifier,
 ) *CommandServiceImpl {
 	return &CommandServiceImpl{
 		factory:       factory,
@@ -50,7 +50,7 @@ func NewCommandServiceImpl(
 }
 
 // Create creates and persists a TODO
-func (cs *CommandServiceImpl) Create(request *CreateTODORequest) (EntityID, error) {
+func (cs *CommandServiceImpl) Create(request *CreateRequest) (EntityID, error) {
 	todo, err := cs.factory.Create(request.Name, request.Details, request.Due)
 	if err != nil {
 		return InvalidEntityID, fmt.Errorf("todo factory error: %w", err)
